@@ -1,0 +1,104 @@
+server:
+  servlet:
+    context-path: /backend
+  port: 8080
+  error:
+    include-stacktrace: ALWAYS #错误堆栈打印
+
+spring:
+  application:
+    name: uaa  #应用名称
+  datasource:
+#    type: org.apache.tomcat.jdbc.pool.DataSource #默认使用HikariDataSource，这里可以切换使用tomcat-jdbc或druid
+    url: jdbc:mysql://localhost:3306/ph_200?characterEncoding=UTF-8&amp;useUnicode=true&amp;autoReconnect=true&amp;rewriteBatchedStatements=true
+    username: root
+    password: root
+    driver-class-name: com.mysql.jdbc.Driver
+    hikari:
+      maximum-pool-size: 10 #连接池中允许的最大连接数。缺省值：10；推荐的公式：((core_count * 2) + effective_spindle_count)
+      minimum-idle: 10 #最小空闲连接
+      max-lifetime: 28700000 #一个连接的生命时长（毫秒），超时而且没被使用则被释放（retired），缺省:30分钟，建议设置比数据库超时时长少30秒，参考MySQL wait_timeout参数（show variables like '%timeout%';）
+      idle-timeout: 600000 #多长空闲时间之后回收空闲连接，必须大于10000毫秒，默认600000毫秒
+      connection-timeout: 60000 #等待连接池分配连接的最大时长（毫秒），超过这个时长还没可用的连接则发生SQLException， 缺省:30秒
+      read-only: false #连接只读数据库时配置为true， 保证安全
+      pool-name: ${spring.application.name}_db_conn_pool #线程池连接名字
+#      allow-pool-suspension: false #允许暂停从缓冲池中获取新的数据库连接
+#      auto-commit: #缓冲池中连接默认自动提交行为是否启
+#      catalog:
+      connection-init-sql: SELECT 1 #连接初始化测试sql
+      connection-test-query: SELECT 1 #验证连接有效性的sql
+      validation-timeout: 5000 #验证连接有效性的超时时间
+#      health-check-properties: #健康检测指标注册器配置
+#      health-check-registry: #健康检测指标注册器
+#      initialization-fail-timeout: #连接初始化超时时间
+#      isolate-internal-queries: #是否是隔离内部的语句
+#      leak-detection-threshold: #内存泄漏侦测入口
+#      login-timeout: #登陆超时时间
+#      metric-registry: #指标注册器
+#      metrics-tracker-factory: #指标追踪工厂
+#      register-mbeans: #是否注册管理构建工具
+#      scheduled-executor: #计划线程池执行者
+#      schema:
+#      transaction-isolation: #事务隔离名称
+
+  data:
+    jpa:
+      repositories:
+        enabled: true
+    redis:
+      repositories:
+        enabled: true #启用redis
+  jpa:
+    database-platform: cn.jzyunqi.common.support.hibernate.MySQL5InnoDBDialectPlus #数据库语言
+    generate-ddl: false #不生成建表语句
+    open-in-view: false #不允许实体类传递到视图层
+    show-sql: true #打印sql
+    hibernate:
+      ddl-auto: update
+      naming:
+        implicit-strategy: cn.jzyunqi.common.support.hibernate.DbTableNameGenerator #对象-表名称映射关系
+    properties:
+      hibernate.format_sql: true #是否格式化sql
+      hibernate.auto_quote_keyword: true #是否自动将关键字打上引号
+      org.hibernate.envers.store_data_at_delete: true #删除数据时候是否保存完整的信息
+      org.hibernate.envers.audit_table_prefix: z_ #审计表前缀
+      org.hibernate.envers.audit_table_suffix: _hist #审计表后缀
+  redis:
+#    url: redis://user:password@example.com:6379 #会覆盖host，port，password（user字段无效）
+    host: localhost
+    port: 6379
+#    password:
+    database: 0 #redis数据库选择
+    lettuce: #使用lettuce作为底层连接，默认为lettuce
+      pool:
+        max-active: 8 #最大活跃线程数量
+        max-idle: 4 #最大空闲数量
+        min-idle: 1 #最小空闲数量
+        max-wait: 30000ms #超时时间（毫秒），-1为不超时
+  messages:
+#    basename: i18n/message #消息国际化文件位置
+    cache-duration: 3600ms #消息在缓存中保留时间
+    encoding: UTF-8 #消息编码
+    fallback-to-system-locale: true #国际化消息，如果找不到国际化文件则切换到系统默认语言
+  jackson:
+    locale: zh_CN #时间地区
+    time-zone: GMT+8 #时间时区
+    date-format: yyyy-MM-dd HH:mm:ss #时间格式
+    default-property-inclusion: NON_NULL #默认将不为空的属性输出
+    generator:
+      WRITE_BIGDECIMAL_AS_PLAIN: true #bigdecimal以字符串格式来格式化
+    deserialization:
+      ACCEPT_SINGLE_VALUE_AS_ARRAY: true #单字符串返回可以用数组接收
+      FAIL_ON_UNKNOWN_PROPERTIES: false #不识别的属性不报错
+
+management:
+  endpoints:
+    web:
+      base-path: /actuator #配置管理路径
+      path-mapping:
+        health: healthcheck
+
+#endpoints:
+#  cors:
+#    allowed-origins: http://localhost:3000 #允许访问本服务的跨域站点
+#    allowed-methods: GET,POST #允许访问的方法
