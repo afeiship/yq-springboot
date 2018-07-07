@@ -1,8 +1,8 @@
-package cn.jzyunqi.ms.system.domain.dao.jpa.querydsl;
+package cn.jzyunqi.controller;
 
 import cn.jzyunqi.common.support.SqlFilter;
 import cn.jzyunqi.common.utils.StringUtilPlus;
-import cn.jzyunqi.ms.system.common.dto.backend.query.BkAdminUserQueryDto;
+import cn.jzyunqi.controller.BkAdminUserQueryDto;
 import cn.jzyunqi.ms.system.domain.QAdminUser;
 import com.querydsl.jpa.JPQLQuery;
 

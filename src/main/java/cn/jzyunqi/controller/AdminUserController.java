@@ -1,4 +1,4 @@
-package cn.jzyunqi.ms.system.web;
+package cn.jzyunqi.controller;
 
 import cn.jzyunqi.AdminRestBaseController;
 import cn.jzyunqi.common.exception.BusinessException;
@@ -8,10 +8,6 @@ import cn.jzyunqi.common.model.spring.security.LoginUserDto;
 import cn.jzyunqi.common.support.spring.BindingResultHelper;
 import cn.jzyunqi.common.utils.BeanUtilPlus;
 import cn.jzyunqi.common.utils.CurrentUserUtils;
-import cn.jzyunqi.ms.system.common.dto.backend.BkAdminUserDto;
-import cn.jzyunqi.ms.system.common.dto.backend.query.BkAdminUserQueryDto;
-import cn.jzyunqi.ms.system.service.AdminUserService;
-import cn.jzyunqi.ms.system.web.validator.BkAdminUserDtoValidator;
 import org.springframework.data.domain.Pageable;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.annotation.Validated;

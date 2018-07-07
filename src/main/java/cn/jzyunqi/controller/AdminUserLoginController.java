@@ -1,11 +1,10 @@
-package cn.jzyunqi.ms.system.web;
+package cn.jzyunqi.controller;
 
 import cn.jzyunqi.AdminRestBaseController;
 import cn.jzyunqi.common.exception.BusinessException;
 import cn.jzyunqi.common.model.RestResultDto;
 import cn.jzyunqi.common.utils.CollectionUtilPlus;
 import cn.jzyunqi.common.utils.CurrentUserUtils;
-import cn.jzyunqi.ms.system.service.AdminUserService;
 import cn.jzyunqi.ms.uaa.service.ResourceService;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.RequestMapping;

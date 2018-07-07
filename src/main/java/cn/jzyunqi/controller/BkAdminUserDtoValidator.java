@@ -1,8 +1,7 @@
-package cn.jzyunqi.ms.system.web.validator;
+package cn.jzyunqi.controller;
 
 import cn.jzyunqi.common.model.ValidatorDto;
 import cn.jzyunqi.common.utils.CollectionUtilPlus;
-import cn.jzyunqi.ms.system.common.dto.backend.BkAdminUserDto;
 
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;

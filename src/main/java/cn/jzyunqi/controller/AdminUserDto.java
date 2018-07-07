@@ -1,4 +1,4 @@
-package cn.jzyunqi.ms.system.common.dto;
+package cn.jzyunqi.controller;
 
 import cn.jzyunqi.common.model.BaseDto;
 

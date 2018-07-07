@@ -1,7 +1,6 @@
-package cn.jzyunqi.ms.system.domain.dao.jpa;
+package cn.jzyunqi.controller;
 
 import cn.jzyunqi.common.persistence.dao.BaseDao;
-import cn.jzyunqi.ms.system.domain.AdminUser;
 
 
 /**

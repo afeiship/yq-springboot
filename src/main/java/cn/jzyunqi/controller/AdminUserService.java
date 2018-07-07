@@ -1,10 +1,8 @@
-package cn.jzyunqi.ms.system.service;
+package cn.jzyunqi.controller;
 
 import cn.jzyunqi.common.exception.BusinessException;
 import cn.jzyunqi.common.model.PageDto;
 import cn.jzyunqi.common.model.SnowflakeId;
-import cn.jzyunqi.ms.system.common.dto.backend.BkAdminUserDto;
-import cn.jzyunqi.ms.system.common.dto.backend.query.BkAdminUserQueryDto;
 import org.springframework.data.domain.Pageable;
 
 import java.time.LocalDateTime;

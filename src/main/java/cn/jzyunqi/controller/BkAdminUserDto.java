@@ -1,6 +1,6 @@
-package cn.jzyunqi.ms.system.common.dto.backend;
+package cn.jzyunqi.controller;
 
-import cn.jzyunqi.ms.system.common.dto.AdminUserDto;
+import cn.jzyunqi.controller.AdminUserDto;
 import lombok.Getter;
 import lombok.Setter;
 

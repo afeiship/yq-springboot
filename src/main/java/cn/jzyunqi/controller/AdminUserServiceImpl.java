@@ -1,4 +1,4 @@
-package cn.jzyunqi.ms.system.service.impl;
+package cn.jzyunqi.controller;
 
 import cn.jzyunqi.common.exception.BusinessException;
 import cn.jzyunqi.common.helper.NoGenHelper;
@@ -7,12 +7,6 @@ import cn.jzyunqi.common.model.SnowflakeId;
 import cn.jzyunqi.common.persistence.dao.tools.JF;
 import cn.jzyunqi.common.utils.CollectionUtilPlus;
 import cn.jzyunqi.common.utils.StringUtilPlus;
-import cn.jzyunqi.ms.system.common.dto.backend.BkAdminUserDto;
-import cn.jzyunqi.ms.system.common.dto.backend.query.BkAdminUserQueryDto;
-import cn.jzyunqi.ms.system.domain.AdminUser;
-import cn.jzyunqi.ms.system.domain.dao.jpa.AdminUserDao;
-import cn.jzyunqi.ms.system.domain.dao.jpa.querydsl.AdminUserQry;
-import cn.jzyunqi.ms.system.service.AdminUserService;
 import cn.jzyunqi.ms.uaa.common.constant.UaaMessageConstant;
 import cn.jzyunqi.ms.uaa.common.dto.UserDto;
 import cn.jzyunqi.ms.uaa.common.enums.AuthType;
