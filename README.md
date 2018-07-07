@@ -1,6 +1,5 @@
 # yq-springboot
 > yq-springboot.
-蚂蚁金服开放平台 -> 文档中心 -> 开发文档 -> 产品文档 -> APP支付 -> SDK及DEMO下载 -> 服务端SDK -> JAVA版资源
 
 ## get-start:
 ```bash
