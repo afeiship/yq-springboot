@@ -1,9 +1,7 @@
 package cn.jzyunqi.controller;
 
 import cn.jzyunqi.common.exception.BusinessException;
-import cn.jzyunqi.common.helper.NoGenHelper;
 import cn.jzyunqi.common.model.PageDto;
-import cn.jzyunqi.common.model.SnowflakeId;
 import cn.jzyunqi.common.persistence.dao.tools.JF;
 import cn.jzyunqi.common.utils.CollectionUtilPlus;
 import cn.jzyunqi.common.utils.StringUtilPlus;
@@ -14,15 +12,12 @@ import cn.jzyunqi.ms.uaa.service.RoleService;
 import cn.jzyunqi.ms.uaa.service.UserAuthService;
 import cn.jzyunqi.ms.uaa.service.UserService;
 import com.querydsl.jpa.JPQLQuery;
-import org.springframework.data.auditing.DateTimeProvider;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.annotation.Resource;
-import java.time.LocalDateTime;
-import java.time.temporal.TemporalAccessor;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -38,9 +33,6 @@ public class AdminUserServiceImpl implements AdminUserService {
     private AdminUserDao adminUserDao;
 
     @Resource
-    private NoGenHelper noGenHelper;
-
-    @Resource
     private RoleService roleService;
 
     @Resource
@@ -49,12 +41,9 @@ public class AdminUserServiceImpl implements AdminUserService {
     @Resource
     private UserAuthService userAuthService;
 
-    @Resource
-    private DateTimeProvider dateTimeProvider;
-
     @Override
-    public PageDto<BkAdminUserDto> queryAdminUserPage(BkAdminUserQueryDto bkAdminUserQueryDto, Pageable pageable) {
-        List<BkAdminUserDto> rstList = new ArrayList<>();
+    public PageDto<AdminUserDto> queryAdminUserPage(AdminUserDto bkAdminUserQueryDto, Pageable pageable) {
+        List<AdminUserDto> rstList = new ArrayList<>();
         Page<AdminUser> adminUserDbs = adminUserDao.findAllJF(new JF() {
             @Override
             public <T> void prepareQry(JPQLQuery<T> schQry, boolean notCountQry) {
@@ -63,7 +52,7 @@ public class AdminUserServiceImpl implements AdminUserService {
         }, pageable);
 
         for (AdminUser adminUserDb : adminUserDbs) {
-            BkAdminUserDto bkAdminUserDto = new BkAdminUserDto();
+            AdminUserDto bkAdminUserDto = new AdminUserDto();
             bkAdminUserDto.setId(adminUserDb.getId());
             bkAdminUserDto.setNickname(adminUserDb.getNickname());
             bkAdminUserDto.setCreateTime(adminUserDb.getCreateTime());
@@ -81,7 +70,7 @@ public class AdminUserServiceImpl implements AdminUserService {
 
     @Override
     @Transactional(rollbackFor = BusinessException.class)
-    public void addAdminUser(BkAdminUserDto bkAdminUserDto) throws BusinessException {
+    public void addAdminUser(AdminUserDto bkAdminUserDto) throws BusinessException {
         UserDto userDto = userAuthService.createUser(AuthType.NORMAL, bkAdminUserDto.getUsername(), bkAdminUserDto.getPassword());
 
         AdminUser adminUserDb = new AdminUser();
@@ -96,13 +85,13 @@ public class AdminUserServiceImpl implements AdminUserService {
     }
 
     @Override
-    public BkAdminUserDto bkGetUserById(Long userId) throws BusinessException {
+    public AdminUserDto bkGetUserById(Long userId) throws BusinessException {
         Optional<AdminUser> optionalAdminUserDb = adminUserDao.findById(userId);
         if (!optionalAdminUserDb.isPresent()) {
             throw new BusinessException(UaaMessageConstant.ERROR_USER_NOT_FOUND);
         }
         AdminUser adminUserDb = optionalAdminUserDb.get();
-        BkAdminUserDto bkAdminUserDto = new BkAdminUserDto();
+        AdminUserDto bkAdminUserDto = new AdminUserDto();
         bkAdminUserDto.setId(adminUserDb.getId());
         bkAdminUserDto.setNickname(adminUserDb.getNickname());
 
@@ -117,7 +106,7 @@ public class AdminUserServiceImpl implements AdminUserService {
 
     @Override
     @Transactional(rollbackFor = BusinessException.class)
-    public void editAdminUser(BkAdminUserDto bkAdminUserDto) throws BusinessException {
+    public void editAdminUser(AdminUserDto bkAdminUserDto) throws BusinessException {
         Optional<AdminUser> optionalAdminUserDb = adminUserDao.findById(bkAdminUserDto.getId());
         if (!optionalAdminUserDb.isPresent()) {
             throw new BusinessException(UaaMessageConstant.ERROR_USER_NOT_FOUND);
@@ -141,20 +130,20 @@ public class AdminUserServiceImpl implements AdminUserService {
     }
 
     @Override
-    public BkAdminUserDto getUserProfile(Long userId) throws BusinessException {
+    public AdminUserDto getUserProfile(Long userId) throws BusinessException {
         Optional<AdminUser> optionalAdminUser = adminUserDao.findById(userId);
         if (!optionalAdminUser.isPresent()) {
             throw new BusinessException(UaaMessageConstant.ERROR_USER_NOT_FOUND);
         }
         AdminUser adminUser = optionalAdminUser.get();
-        BkAdminUserDto bkAdminUserDto = new BkAdminUserDto();
+        AdminUserDto bkAdminUserDto = new AdminUserDto();
         bkAdminUserDto.setNickname(adminUser.getNickname());
         return bkAdminUserDto;
     }
 
     @Override
     @Transactional(rollbackFor = BusinessException.class)
-    public void updateUserProfile(BkAdminUserDto adminUserDto) throws BusinessException {
+    public void updateUserProfile(AdminUserDto adminUserDto) throws BusinessException {
         Optional<AdminUser> optionalAdminUser = adminUserDao.findById(adminUserDto.getId());
         if (!optionalAdminUser.isPresent()) {
             throw new BusinessException(UaaMessageConstant.ERROR_USER_NOT_FOUND);
@@ -168,7 +157,7 @@ public class AdminUserServiceImpl implements AdminUserService {
     }
 
     @Override
-    public BkAdminUserDto login(String username, String password) throws BusinessException {
+    public AdminUserDto login(String username, String password) throws BusinessException {
         //1. 读取用户信息
         Long userId = userAuthService.findIdByUsername(AuthType.NORMAL, username);
         if (userId == null) {
@@ -180,7 +169,7 @@ public class AdminUserServiceImpl implements AdminUserService {
             throw new BusinessException(UaaMessageConstant.ERROR_USER_CERTIFICATE_FAILED);
         }
         //3. 生成token 返回
-        BkAdminUserDto adminUserDto = new BkAdminUserDto();
+        AdminUserDto adminUserDto = new AdminUserDto();
         adminUserDto.setUid(userService.findUidById(userId));
         adminUserDto.setToken(userAuthService.oauth2Login(AuthType.NORMAL, username, password, true));
         return adminUserDto;
@@ -189,16 +178,5 @@ public class AdminUserServiceImpl implements AdminUserService {
     @Override
     public void logout(String username) {
         userAuthService.removeMemberToken(username);
-    }
-
-    @Override
-    public LocalDateTime getSystemTime() {
-        Optional<TemporalAccessor> temporalAccessor = dateTimeProvider.getNow();
-        return temporalAccessor.map(LocalDateTime::from).orElseGet(LocalDateTime::now);
-    }
-
-    @Override
-    public SnowflakeId snowflakeIdDecrypt(String snowflakeId) {
-        return noGenHelper.snowflakeIdDecrypt(snowflakeId);
     }
 }

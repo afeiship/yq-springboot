@@ -12,7 +12,7 @@ import java.util.List;
  * @author wiiyaya
  * @date 2018/5/4.
  */
-public class BkAdminUserDtoValidator extends BkAdminUserDto implements ValidatorDto {
+public class AdminUserDtoValidator extends AdminUserDto implements ValidatorDto {
     private static final long serialVersionUID = -4420833150884042221L;
 
     public interface EditProfile {

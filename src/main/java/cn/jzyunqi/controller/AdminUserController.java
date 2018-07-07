@@ -32,26 +32,6 @@ public class AdminUserController extends AdminRestBaseController {
     private AdminUserService adminUserService;
 
     /**
-     * 系统时间
-     *
-     * @return 国际化消息
-     */
-    @RequestMapping(value = "/common/systemTime")
-    public RestResultDto systemTime() {
-        return RestResultDto.success(adminUserService.getSystemTime());
-    }
-
-    /**
-     * id解码
-     *
-     * @return 国际化消息
-     */
-    @RequestMapping(value = "/common/snowflakeId/decrypt")
-    public RestResultDto snowflakeIdDecrypt(String id) {
-        return RestResultDto.success(adminUserService.snowflakeIdDecrypt(id));
-    }
-
-    /**
      * 查询用户列表
      *
      * @param bkAdminUserQueryDto 查询条件
@@ -59,7 +39,7 @@ public class AdminUserController extends AdminRestBaseController {
      * @return 用户列表
      */
     @RequestMapping(value = "/adminUser/page")
-    public RestResultDto adminUserPage(BkAdminUserQueryDto bkAdminUserQueryDto, Pageable pageable) {
+    public RestResultDto adminUserPage(AdminUserDto bkAdminUserQueryDto, Pageable pageable) {
         return RestResultDto.success(adminUserService.queryAdminUserPage(bkAdminUserQueryDto, pageable));
     }
 
@@ -71,9 +51,9 @@ public class AdminUserController extends AdminRestBaseController {
      * @return 成功
      */
     @RequestMapping(value = "/adminUser/add")
-    public RestResultDto adminUserAdd(@Validated(BkAdminUserDtoValidator.Add.class) BkAdminUserDtoValidator bkAdminUserDto, BindingResult bindingResult) throws BusinessException {
-        BindingResultHelper.checkAndThrowErrors(bindingResult, bkAdminUserDto, BkAdminUserDtoValidator.Add.class);
-        adminUserService.addAdminUser(BeanUtilPlus.copyAs(bkAdminUserDto, BkAdminUserDto.class));
+    public RestResultDto adminUserAdd(@Validated(AdminUserDtoValidator.Add.class) AdminUserDtoValidator bkAdminUserDto, BindingResult bindingResult) throws BusinessException {
+        BindingResultHelper.checkAndThrowErrors(bindingResult, bkAdminUserDto, AdminUserDtoValidator.Add.class);
+        adminUserService.addAdminUser(BeanUtilPlus.copyAs(bkAdminUserDto, AdminUserDto.class));
 
         return RestResultDto.success();
     }
@@ -97,9 +77,9 @@ public class AdminUserController extends AdminRestBaseController {
      * @return 成功
      */
     @RequestMapping(value = "/adminUser/edit")
-    public RestResultDto adminUserEdit(@Validated(BkAdminUserDtoValidator.Edit.class) BkAdminUserDtoValidator bkAdminUserDto, BindingResult bindingResult) throws BusinessException {
-        BindingResultHelper.checkAndThrowErrors(bindingResult, bkAdminUserDto, BkAdminUserDtoValidator.Edit.class);
-        adminUserService.editAdminUser(BeanUtilPlus.copyAs(bkAdminUserDto, BkAdminUserDto.class));
+    public RestResultDto adminUserEdit(@Validated(AdminUserDtoValidator.Edit.class) AdminUserDtoValidator bkAdminUserDto, BindingResult bindingResult) throws BusinessException {
+        BindingResultHelper.checkAndThrowErrors(bindingResult, bkAdminUserDto, AdminUserDtoValidator.Edit.class);
+        adminUserService.editAdminUser(BeanUtilPlus.copyAs(bkAdminUserDto, AdminUserDto.class));
 
         return RestResultDto.success();
     }
@@ -113,7 +93,7 @@ public class AdminUserController extends AdminRestBaseController {
     public RestResultDto selfProfile() throws BusinessException {
         LoginUserDto loginUserDto = CurrentUserUtils.currentUser();
 
-        BkAdminUserDto bkAdminUserDto = adminUserService.getUserProfile(loginUserDto.getId());
+        AdminUserDto bkAdminUserDto = adminUserService.getUserProfile(loginUserDto.getId());
         bkAdminUserDto.setUsername(loginUserDto.getLoginUsername());
 
         List<String> privilegeCodeList = new ArrayList<>();
@@ -143,12 +123,12 @@ public class AdminUserController extends AdminRestBaseController {
      * @return 成功
      */
     @RequestMapping(value = "/self/profile/edit")
-    public RestResultDto selfProfileEdit(@Validated(BkAdminUserDtoValidator.EditProfile.class) BkAdminUserDtoValidator bkAdminUserDto, BindingResult bindingResult) throws BusinessException {
-        BindingResultHelper.checkAndThrowErrors(bindingResult, bkAdminUserDto, BkAdminUserDtoValidator.EditProfile.class);
+    public RestResultDto selfProfileEdit(@Validated(AdminUserDtoValidator.EditProfile.class) AdminUserDtoValidator bkAdminUserDto, BindingResult bindingResult) throws BusinessException {
+        BindingResultHelper.checkAndThrowErrors(bindingResult, bkAdminUserDto, AdminUserDtoValidator.EditProfile.class);
 
         Long userId = CurrentUserUtils.currentUserId();
         bkAdminUserDto.setId(userId);
-        adminUserService.updateUserProfile(BeanUtilPlus.copyAs(bkAdminUserDto, BkAdminUserDto.class));
+        adminUserService.updateUserProfile(BeanUtilPlus.copyAs(bkAdminUserDto, AdminUserDto.class));
 
         return RestResultDto.success();
     }
