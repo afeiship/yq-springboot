@@ -10,22 +10,22 @@ public class ArticleController {
     @Autowired
     private ArticleService articleService;
 
-    @PostMapping(value = "/articles/list")
-    public RestResultDto list() {
-        return RestResultDto.success(articleService.list());
-    }
-
-    @PostMapping(value = "/articles/create")
+    @PostMapping("/articles/create")
     public RestResultDto create(ArticleDto articleDto) {
         return RestResultDto.success(articleService.create(articleDto));
     }
 
-    @PostMapping(value = "/articles/update")
+    @PostMapping("/articles/update")
     public RestResultDto update(ArticleDto articleDto) {
         return RestResultDto.success(articleService.update(articleDto));
     }
 
-    @PostMapping(value = "/articles/delete")
+    @PostMapping("/articles/retrieve")
+    public RestResultDto list() {
+        return RestResultDto.success(articleService.retrieve());
+    }
+
+    @PostMapping("/articles/delete")
     public RestResultDto deleteById(Long id) {
         articleService.deleteById(id);
         return RestResultDto.success();

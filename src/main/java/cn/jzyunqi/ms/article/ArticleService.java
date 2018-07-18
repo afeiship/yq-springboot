@@ -15,13 +15,12 @@ public class ArticleService {
     @Autowired
     private IArticleDao articleDao;
 
-    public List<ArticleDto> list() {
+    public List<ArticleDto> retrieve() {
         List<Article> articles = articleDao.findAll();
         return articles.stream().map(article -> {
             return BeanUtilPlus.copyAs(article, ArticleDto.class);
         }).collect(Collectors.toList());
     }
-
 
     @Transactional
     public Article create(ArticleDto articleDto) {
