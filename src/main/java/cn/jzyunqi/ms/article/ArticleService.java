@@ -1,8 +1,11 @@
 package cn.jzyunqi.ms.article;
 
+import cn.jzyunqi.common.model.PageDto;
 import cn.jzyunqi.common.model.RestResultDto;
 import cn.jzyunqi.common.utils.BeanUtilPlus;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -15,11 +18,12 @@ public class ArticleService {
     @Autowired
     private IArticleDao articleDao;
 
-    public List<ArticleDto> retrieve() {
-        List<Article> articles = articleDao.findAll();
-        return articles.stream().map(article -> {
+    public PageDto<ArticleDto> retrieve(Pageable pageable) {
+        Page<Article> articles = articleDao.findAll(pageable);
+        List<ArticleDto> articleDtos = articles.stream().map(article -> {
             return BeanUtilPlus.copyAs(article, ArticleDto.class);
         }).collect(Collectors.toList());
+        return new PageDto<ArticleDto>(articleDtos, articles.getTotalElements());
     }
 
     @Transactional
