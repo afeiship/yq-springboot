@@ -33,7 +33,7 @@ public class ArticleService {
     }
 
     public PageDto<ArticleDto> queryByTitle(String title, Pageable pageable) {
-        Page<Article> articles = articleDao.findByTitle(SqlFilter.filterForLike(title), pageable);
+        Page<Article> articles = articleDao.findByTitleLike(title, pageable);
         List<ArticleDto> articleDtos = articles.stream().map(this::entityToDto).collect(Collectors.toList());
         return new PageDto<ArticleDto>(articleDtos, articles.getTotalElements());
     }
