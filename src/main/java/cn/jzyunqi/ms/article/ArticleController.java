@@ -21,7 +21,7 @@ public class ArticleController {
     }
 
     @PostMapping("/articles/retrieve")
-    public RestResultDto list() {
+    public RestResultDto retrieve() {
         return RestResultDto.success(articleService.retrieve());
     }
 
