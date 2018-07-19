@@ -47,7 +47,18 @@ spring:
         enabled: true
     redis:
       repositories:
-        enabled: true #启用redis
+        enabled: true
+    web:
+      pageable:
+        default-page-size:  20
+        max-page-size:  200
+        one-indexed-parameters:  true
+        page-parameter:  page
+        size-parameter: size
+        prefix:
+        qualifier-delimiter: _
+      sort:
+        sort-parameter: sort
   jpa:
     database-platform: cn.jzyunqi.common.support.hibernate.MySQL5InnoDBDialectPlus #数据库语言
     generate-ddl: false #不生成建表语句

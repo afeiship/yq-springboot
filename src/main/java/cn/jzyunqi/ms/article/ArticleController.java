@@ -21,9 +21,14 @@ public class ArticleController {
         return RestResultDto.success(articleService.update(articleDto));
     }
 
-    @PostMapping("/articles/retrieve")
-    public RestResultDto retrieve(Pageable pageable) {
-        return RestResultDto.success(articleService.retrieve(pageable));
+    @PostMapping("/articles/query")
+    public RestResultDto query(Pageable pageable) {
+        return RestResultDto.success(articleService.query(pageable));
+    }
+
+    @PostMapping("/articles/queryByTitle")
+    public RestResultDto queryByTitle(String title, Pageable pageable) {
+        return RestResultDto.success(articleService.queryByTitle(title, pageable));
     }
 
     @PostMapping("/articles/delete")
