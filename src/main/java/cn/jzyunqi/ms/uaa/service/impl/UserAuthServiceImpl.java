@@ -303,7 +303,7 @@ public class UserAuthServiceImpl implements UserAuthService {
         //    throw new BusinessException(UaaMessageConstant.ERROR_USER_PWD_NOT_MATCH_REGX);
         //}
 
-        UserAuth userAuth = userAuthDao.findById(currentUserId).get();
+        UserAuth userAuth = userAuthDao.findByAuthTypeAndUserId(AuthType.NORMAL, currentUserId);
         if (!passwordEncoder.matches(oldPassword, userAuth.getPassword())) {
             throw new BusinessException(UaaMessageConstant.ERROR_USER_OLD_PWD_NOT_MATCH);
         }
